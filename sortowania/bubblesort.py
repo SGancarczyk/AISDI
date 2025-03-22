@@ -21,10 +21,13 @@ def bubblesort_runtime(data):
 
 def bubblesort_test(data):
     runtimes = {}
-    for i in range(1000, 100001, 1000):
+    print(data)
+    for i in range(1000, 10000, 1000):
         o_data = data[:i]
         runtimes[i] = bubblesort_runtime(o_data)
+    print(runtimes)
     graph_creating(runtimes, 'bubblesort_runtimes')
 
 
-print(bubblesort_runtime(read_from_txt('pan-tadeusz.txt')))
+data = read_from_txt('pan-tadeusz.txt')
+bubblesort_test(data)
