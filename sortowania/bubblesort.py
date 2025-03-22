@@ -4,30 +4,31 @@ from time import time
 from readfromtxt import read_from_txt
 
 
-def bubblesort(list: list):
-    for i in range(len(list)):
-        for j in range(len(list) - i - 1):
-            if list[j] > list[j + 1]:
-                list[j], list[j+1] = list[j+1], list[j]
-    return list
+class Bubblesort:
+    def __init__(self, data):
+        self._data = data
 
+    def bubblesort(self, data):
+        for i in range(len(data)):
+            for j in range(len(data) - i - 1):
+                if data[j] > data[j + 1]:
+                    data[j], data[j+1] = data[j+1], data[j]
+        return data
 
-def bubblesort_runtime(data):
-    start_time = time()
-    bubblesort(data)
-    endtime = time()
-    return endtime - start_time
+    def bubblesort_runtime(self, data: list):
+        start_time = time()
+        self.bubblesort(data)
+        endtime = time()
+        return endtime - start_time
 
-
-def bubblesort_test(data):
-    runtimes = {}
-    print(data)
-    for i in range(1000, 10000, 1000):
-        o_data = data[:i]
-        runtimes[i] = bubblesort_runtime(o_data)
-    print(runtimes)
-    graph_creating(runtimes, 'bubblesort_runtimes')
+    def bubblesort_test(self):
+        runtimes = {}
+        for i in range(1000, 10000, 1000):
+            o_data = self._data[:i]
+            runtimes[i] = self.bubblesort_runtime(o_data)
+        graph_creating(runtimes, 'bubblesort_runtimes')
 
 
 data = read_from_txt('pan-tadeusz.txt')
-bubblesort_test(data)
+b_sort_1 = Bubblesort(data)
+b_sort_1.bubblesort_test()

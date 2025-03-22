@@ -5,7 +5,7 @@ def graph_creating(data: dict, save_name):
     # Arguement is dict, where keys represents size of tested data,
     #  and values represents program runtime
     sizes = data.keys()
-    times = data.keys()
+    times = data.values()
     plt.plot(sizes, times, marker='o')
     plt.title('Sorting time depending on the number of items')
     plt.xlabel('Data range (words)')
