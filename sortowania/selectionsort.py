@@ -9,17 +9,14 @@ class Selectionsort:
 
     def selectionsort(self, data):
         for i in range(len(data)):
-            min_index = i + self.mini(data[i:])
-            data[i], data[min_index] = data[min_index], data[i]
-        return data
-
-    def mini(self, lst):
-        # Returns index of minimal element in list
-        min_index = 0
-        for i in range(1, len(lst)):
-            if lst[i] < lst[min_index]:
-                min_index = i
-        return min_index
+            minimum = data[i]
+            for j in range(i, len(data)):
+                if data[j] < minimum:
+                    minimum = data[j]
+                    indeks = j
+            pom = data[indeks]
+            data[indeks] = data[i]
+            data[i] = pom
 
     def selectionsort_runtime(self, data: list):
         start_time = time()
