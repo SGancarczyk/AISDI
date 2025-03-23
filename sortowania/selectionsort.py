@@ -17,6 +17,7 @@ class Selectionsort:
             pom = data[indeks]
             data[indeks] = data[i]
             data[i] = pom
+        return data
 
     def selectionsort_runtime(self, data: list):
         start_time = time()
