@@ -2,7 +2,6 @@
 
 
 def read_from_txt(file_name):
-    
     #   Returns a list with words from file
 
     with open(file_name, 'r') as file:
