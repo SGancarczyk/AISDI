@@ -7,7 +7,7 @@ class Insertionsort:
     def __init__(self, data):
         self._data = data
 
-    def insertionsort():
+    def insertionsort(self, data):
         # To be implemented
         pass
 
