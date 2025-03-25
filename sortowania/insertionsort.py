@@ -8,8 +8,12 @@ class Insertionsort:
         self._data = data
 
     def insertionsort(self, data):
-        # To be implemented
-        pass
+        for i in range(len(data)-1):
+            j = i
+            while j > 0 and data[j-1] > data[j]:
+                data[j], data[j-1] = data[j-1], data[j]
+                j -= 1
+        return data
 
     def insertionsort_runtime(self, data: list):
         start_time = time()
