@@ -7,25 +7,24 @@ class Insertionsort:
     def __init__(self, data):
         self._data = data
 
-    def insertionsort(self, data):
-        for i in range(len(data)-1):
+    def insertionsort(self, mrange):
+        data = self._data
+        for i in range(1, mrange):
             j = i
-            while j > 0 and data[j-1] > data[j]:
+            while j > 0 and data[j - 1] > data[j]:
                 data[j], data[j-1] = data[j-1], data[j]
                 j -= 1
-        return data
 
-    def insertionsort_runtime(self, data: list):
+    def insertionsort_runtime(self, range):
         start_time = time()
-        self.insertionsort(data)
+        self.insertionsort(range)
         endtime = time()
         return endtime - start_time
 
     def insertionsort_test(self):
         runtimes = {}
         for i in range(1000, 10000, 1000):
-            o_data = self._data[:i]
-            runtimes[i] = self.insertionsort_runtime(o_data)
+            runtimes[i] = self.insertionsort_runtime(i)
         graph_creating(runtimes, 'insertionsort_runtimes')
 
 
