@@ -31,7 +31,7 @@ class Quicksort:
             pivot_position = self.Partition(left, right)
             self.Quicksort(left, pivot_position-1)
             self.Quicksort(pivot_position+1, right)
-        
+
     def Quicksort_runtime(self, range):
         start_time = time()
         self.Quicksort(0, range)
@@ -48,7 +48,7 @@ class Quicksort:
 data = read_from_txt('pan-tadeusz.txt')
 q_sort_1 = Quicksort(data)
 q_sort_1.Quicksort_test()
-with open("quick_sort_odp.txt", "w") as file:s
+with open("quick_sort_odp.txt", "w") as file:
     for word in q_sort_1.mdata:
         file.write(word)
         file.write(" ")
