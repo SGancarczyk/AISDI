@@ -11,7 +11,7 @@ class Insertionsort:
         data = self._data
         for i in range(1, mrange):
             j = i
-            while j > 0 and data[j - 1] > data[j]:
+            while j > 0 and data[j-1] > data[j]:
                 data[j], data[j-1] = data[j-1], data[j]
                 j -= 1
 
