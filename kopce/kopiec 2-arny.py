@@ -1,3 +1,7 @@
+from time import time
+from graphcreator import graph_creating_heap, graph_creating_pop
+
+
 class heap:
     def __init__(self, T):
         self.nodes = T
@@ -22,11 +26,14 @@ class heap:
         else:
             self.swap(element_index, parent)
             self.heapify_up(parent)
-    
+
     def pop_root(self):
-        self.swap(0, len(self)-1)
-        del self.nodes[-1]
-        self.max_heapify(len(self), 0)
+        if len(self) < 1:
+            return
+        else:
+            self.swap(0, len(self)-1)
+            del self.nodes[-1]
+            self.max_heapify(len(self)-1, 0)
 
     def max_heapify(self, heap_size, i):
         left = 2*i + 1
@@ -44,7 +51,7 @@ class heap:
 
     def build_max_heap(self):
         heap_size = len(self)
-        for i in range(heap_size//2, -1, -1):   # for all the parents 
+        for i in range(heap_size//2, -1, -1):   # for all the parents
             self.max_heapify(heap_size, i)
 
     def __str__(self):
@@ -75,17 +82,49 @@ class heap:
         return output
 
 
+def generate_numbers():
+    import random
+    numbers = []
+    for i in range(100000):
+        numbers.append(random.randint(1, 300000))
+    return numbers
+
+
+def heap_create_runtime(data):
+    start_time = time()
+    h1 = heap(data)
+    end_time = time()
+    return end_time-start_time
+
+
+def heap_create_test(data):
+    runtimes = {}
+    for i in range(10000, 100001, 10000):
+        mdata = data[:i]
+        runtimes[i] = heap_create_runtime(mdata)
+    graph_creating_heap(runtimes, "Kopiec 2-arny create")
+
+
+def heap_pop_runtime(h1, how_much):
+    start_time = time()
+    for i in range(how_much):
+        h1.pop_root()
+    end_time = time()
+    return end_time-start_time
+
+
+def heap_pop_test(data):
+    runtimes = {}
+    for i in range(10000, 100001, 10000):
+        mheap = heap(data[:])
+        runtimes[i] = heap_pop_runtime(mheap, i)
+    graph_creating_pop(runtimes, "Kopiec 2-arny pop_root")
+
+
 def main():
-    a = [1, 4, 2, 1, 6, 5, 7, 2, 7, 10, 3]
-    h1 = heap(a)
-    h1.add(12)
-    h1.add(8)
-    h1.add(4)
-    h1.add(5)
-    h1.add(9)
-    h1.pop_root()
-    h1.pop_root()
-    print(h1)
+    a = generate_numbers()
+    heap_create_test(a)
+    heap_pop_test(a)
 
 
 main()
