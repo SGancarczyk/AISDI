@@ -1,6 +1,7 @@
 from graphcreating import graph_creating
 from time import time
 from readfromtxt import read_from_txt
+import random # noqa
 
 
 class Mergesort:
@@ -52,3 +53,8 @@ class Mergesort:
 data = read_from_txt('pan-tadeusz.txt')
 m_sort_1 = Mergesort(data)
 m_sort_1.mergesort_test()
+
+
+'''tests = [random.randint(1, 100) for i in range(100)]
+m_sort_2 = Mergesort(tests)
+print(m_sort_2.merge_sort(tests))'''
