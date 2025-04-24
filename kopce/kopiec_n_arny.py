@@ -117,6 +117,7 @@ def heap_pop_test(data, n):
 
 def main():
     a = generate_numbers()
+    h1 = heap([], 2)
     create2 = heap_create_test(a, 2)
     pop2 = heap_pop_test(a, 2)
     create5 = heap_create_test(a, 5)
@@ -125,6 +126,6 @@ def main():
     pop7 = heap_pop_test(a, 7)
     graph_creating_heap(create2, create5, create7, "Final create")
     graph_creating_pop(pop2, pop5, pop7, "Final Pop")
-
+    h1.pop_root(2)
 
 main()

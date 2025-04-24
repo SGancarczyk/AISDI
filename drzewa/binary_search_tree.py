@@ -39,10 +39,6 @@ def search(root, key):
     return search(root.left, key)
 
 
-# Note that it is not a generic inorder successor
-# function. It mainly works when the right child
-# is not empty, which is  the case we need in BST
-# delete.
 def get_successor(curr):
     curr = curr.right
     while curr is not None and curr.left is not None:
@@ -51,8 +47,6 @@ def get_successor(curr):
 
 
 # This function deletes a given key x from the
-# given BST and returns the modified root of the
-# BST (if it is modified).
 def del_node(root, x):
 
     # Base case
@@ -85,29 +79,30 @@ def del_node(root, x):
     return root
 
 
-# Utility function to do inorder traversal
-def print_tree(root):  # zjebane do poprawy
+def in_order(root):
     if root is not None:
-        print_tree(root.left)
+        in_order(root.left)
         print(root.key, end=" ")
-        print_tree(root.right)
+        in_order(root.right)
 
 
-def Test_Insertion():
-    pass
+def display_tree(node, level=0, prefix="Root: "):
+    if node is not None:
+        print(" " * (level * 4) + prefix + str(node.key))
+        if node.left or node.right:
+            if node.left:
+                display_tree(node.left, level + 1, "L--- ")
+            else:
+                print(" " * ((level + 1) * 4) + "L--- None")
+            if node.right:
+                display_tree(node.right, level + 1, "R--- ")
+            else:
+                print(" " * ((level + 1) * 4) + "R--- None")
 
 
-def Test_SearchTree():
-    pass
-
-
-def Test_NotInTree():
-    pass
-
-
-def create_tree(size):
-    r = Node(test_data[0])
-    for i, digit in enumerate(test_data[:size]):
+def create_tree(size, data):
+    r = Node(data[0])
+    for i, digit in enumerate(data[:size]):
         if i == 0:
             continue
         r = insert(r, digit)
@@ -116,7 +111,7 @@ def create_tree(size):
 
 def runtime(size):
     start_time = time()
-    create_tree(size)
+    create_tree(size, test_data)
     return time() - start_time
 
 
@@ -127,6 +122,24 @@ def benchmarks():
     graph_creating_tree(results, 'binary_search_tree_graph')
 
 
-# Driver code
+def is_valid(root):
+    if root.left:
+        if root.left.key >= root.key:
+            return False
+        if not is_valid(root.left):
+            return False
+    if root.right:
+        if root.right.key <= root.key:
+            return False
+        if not is_valid(root.right):
+            return False
+    return True
+
+
 if __name__ == "__main__":
-    benchmarks()
+    # benchmarks()
+    values = [3,4,2,6,4,1,3,7,8]
+    t1 = create_tree(len(values), values)
+    del_node(t1, 1)
+    del_node(t1, 3)
+    display_tree(t1)
