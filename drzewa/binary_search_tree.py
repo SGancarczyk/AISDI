@@ -12,106 +12,131 @@ class Node:
         self.right = None
 
 
-def insert(root, key):
-    if root is None:
-        return Node(key)
-    if root.key == key:
-        return root
-    if root.key < key:
-        root.right = insert(root.right, key)
-    else:
-        root.left = insert(root.left, key)
-    return root
+class Tree:
+    def __init__(self):
+        self.root = None
 
+    def insert(self, key):
+        if not self.root:
+            self.root = Node(key)
+        else:
+            self._insert(self.root, key)
 
-def search(root, key):
-
-    # Base Cases: root is null or key
-    # is present at root
-    if root is None or root.key == key:
-        return root
-
-    # Key is greater than root's key
-    if root.key < key:
-        return search(root.right, key)
-
-    # Key is smaller than root's key
-    return search(root.left, key)
-
-
-def get_successor(curr):
-    curr = curr.right
-    while curr is not None and curr.left is not None:
-        curr = curr.left
-    return curr
-
-
-# This function deletes a given key x from the
-def del_node(root, x):
-
-    # Base case
-    if root is None:
-        return root
-
-    # If key to be searched is in a subtree
-    if root.key > x:
-        root.left = del_node(root.left, x)
-    elif root.key < x:
-        root.right = del_node(root.right, x)
-
-    else:
-        # If root matches with the given key
-
-        # Cases when root has 0 children or
-        # only right child
-        if root.left is None:
-            return root.right
-
-        # When root has only left child
-        if root.right is None:
-            return root.left
-
-        # When both children are present
-        succ = get_successor(root)
-        root.key = succ.key
-        root.right = del_node(root.right, succ.key)
-
-    return root
-
-
-def in_order(root):
-    if root is not None:
-        in_order(root.left)
-        print(root.key, end=" ")
-        in_order(root.right)
-
-
-def display_tree(node, level=0, prefix="Root: "):
-    if node is not None:
-        print(" " * (level * 4) + prefix + str(node.key))
-        if node.left or node.right:
-            if node.left:
-                display_tree(node.left, level + 1, "L--- ")
+    def _insert(self, node, key):
+        if key == node.key:
+            return
+        if key < node.key:
+            if node.left is None:
+                node.left = Node(key)
             else:
-                print(" " * ((level + 1) * 4) + "L--- None")
-            if node.right:
-                display_tree(node.right, level + 1, "R--- ")
+                self._insert(node.left, key)
+        else:
+            if node.right is None:
+                node.right = Node(key)
             else:
-                print(" " * ((level + 1) * 4) + "R--- None")
+                self._insert(node.right, key)
+
+    def search(self, key):
+        return self._search(self.root, key)
+
+    def _search(self, node, key):
+        if node is None or node.key == key:
+            return node
+
+        if key < node.key:
+            return self._search(node.left, key)
+
+        return self._search(node.right, key)
+    
+    def del_node(self, x):
+
+        if self.root is None:
+            return
+        else:
+            self._del_node(self.root, x)
+    
+    def _del_node(self, node, x):
+        # If key to be searched is in a subtree
+        if node.key > x:
+            node.left = self._del_node(node.left, x)
+        elif node.key < x:
+            node.right = self._del_node(node.right, x)
+
+        else:
+            # If root matches with the given key
+
+            # Cases when root has 0 children or
+            # only right child
+            if node.left is None:
+                return node.right
+
+            # When root has only left child
+            if node.right is None:
+                return node.left
+
+            # When both children are present
+            succ = self.get_successor(node)
+            node.key = succ.key
+            node.right = self._del_node(node.right, succ.key)
+        return node
+
+    def get_successor(self, curr):
+        curr = curr.right
+        while curr is not None and curr.left is not None:
+            curr = curr.left
+        return curr
+
+    def inorder(self, node):
+        if node:
+            self.inorder(node.left)
+            print(node.key, end=' ')
+            self.inorder(node.right)
+
+    def preorder(self, node):
+        if node:
+            print(node.key, end=' ')
+            self.preorder(node.left)
+            self.preorder(node.right)
+
+    def postorder(self, node):
+        if node:
+            self.postorder(node.left)
+            self.postorder(node.right)
+            print(node.key, end=' ')
+
+    def print_tree(self, order="inorder"):
+        if order == "inorder":
+            self.inorder(self.root)
+        elif order == "preorder":
+            self.preorder(self.root)
+        elif order == "postorder":
+            self.postorder(self.root)
+        print()
+
+    def display(self, node, level=0, prefix="Root: "):
+        if node is not None:
+            print(" " * (level * 4) + prefix + str(node.key))
+            if node.left is not None or node.right is not None:  
+                if node.left:
+                    self.display(node.left, level + 1, "L--- ")
+                else:
+                    print(" " * ((level + 1) * 4) + "L--- None")
+                if node.right:
+                    self.display(node.right, level + 1, "R--- ")
+                else:
+                    print(" " * ((level + 1) * 4) + "R--- None")
 
 
-def create_tree(size, data):
-    r = Node(data[0])
-    for i, digit in enumerate(data[:size]):
-        if i == 0:
-            continue
-        r = insert(r, digit)
-    return r
+def create_tree(data):
+    t = Tree()
+    for digit in data:
+        t.insert(digit)
+    return t
 
 
 def runtime(size):
     start_time = time()
-    create_tree(size, test_data)
+    tree = create_tree(test_data[:size])
     return time() - start_time
 
 
@@ -138,8 +163,12 @@ def is_valid(root):
 
 if __name__ == "__main__":
     # benchmarks()
-    values = [3,4,2,6,4,1,3,7,8]
-    t1 = create_tree(len(values), values)
-    del_node(t1, 1)
-    del_node(t1, 3)
-    display_tree(t1)
+    values = [3, 4, 2, 6, 4, 1, 3, 7, 8, 10, 50]
+    t1 = create_tree(values)
+    t1.del_node(3)
+    t1.del_node(6)
+    t1.insert(6)
+    t1.del_node(7)
+    t1.display(t1.root)
+    # Drukowanie drzewa w porządku inorder (lewy, korzeń, prawy)
+    t1.print_tree("inorder")   # Wydrukuje: 3 5 7 10 15 20
