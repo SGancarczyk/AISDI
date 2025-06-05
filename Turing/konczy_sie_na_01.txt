@@ -3,4 +3,4 @@ init 0 0 R init
 init 0 0 R zero
 
 zero 1 1 R one
-one _ _ * halt
+one _ _ L halt

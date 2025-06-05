@@ -1,0 +1,2 @@
+init 1 1 L left
+left _ _ * halt

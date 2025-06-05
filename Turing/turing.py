@@ -50,6 +50,6 @@ class TuringMachine:
         print("Brak sciezki do halt")
 
     def display_tape(self, tape: list, head: int, state: str):
-        display = ''.join(tape).rstrip('_') + ('_' if head >= len(tape) else '')
+        display = ('_' if head < 0 else '') + ''.join(tape).rstrip('_') + ('_' if head >= len(tape) else '')
         print(display, state)
         print(' ' * head + '^')
